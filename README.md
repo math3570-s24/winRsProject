@@ -1,3 +1,3 @@
 # winRsProject
 
-We could use this to communicate for now
+We could use this to communicate
