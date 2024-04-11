@@ -1,1 +1,33 @@
-#hello Code goes here
+---
+title: "final project name goes here"
+subtitle: "MATH/COSC 3570 Spring 2024"
+date: today
+author: "Maddie Flint, Katy Carter, Michael Hankins, Allan Akkathara"
+format: 
+   html:
+    toc: true
+execute:
+  echo: true
+  eval: false
+---
+
+```{r}
+#| label: setup    #label just gives this specific r chunk a name if you ever wanna use this chunk later on
+#| include: false    #include displays the code on the rendered file(html) if its true and vice versa
+library(reticulate)
+library(tidyverse)
+library(tidymodels)
+```
+
+## THIS IS THE TITLE
+### subtitle
+```{r, echo = c(2)}
+#| eval: true
+penguins <- readr::read_csv("data/Sleep_health_and_lifestyle_dataset.csv")
+penguins
+```
+
+
+## THIS IS TITLE 2
+
+hello world!
