@@ -1,0 +1,3 @@
+library(reticulate)
+py_pkg <- c("pandas", "matplotlib", "openpyxl", "xlrd", "pyarrow", "scikit-learn")
+py_install(py_pkg)
