@@ -119,78 +119,234 @@ sleep_data |>
   theme_void()
 ```
 
-##model training
+##Logistic Regression Models
+
+###Data Transformation
 
 ```{r}
-#| eval: false
-# Load necessary libraries
+sleep_data <- read_csv("./data/Sleep_health_and_lifestyle_dataset.csv")
+
+library(dplyr)
+library(stringr)
 library(tidymodels)
 
-sleep_data_factor <- sleep_data |>
-  mutate(QualityofSleep = factor(QualityofSleep))
+#Transform data
+sleep_data <- sleep_data |>
+  mutate(Gender = as.factor(Gender), #Gender as factor
+         Age = as.factor(Age),
+         Occupation = as.factor(Occupation), #Occupation as factor
+         BMICategory = as.factor(BMICategory), #BMI as factor
+         SleepDisorder = ifelse(SleepDisorder == 'None', FALSE, TRUE), #presence of sleep disorder as boolean
+         SleepDisorder = as.factor(SleepDisorder) #boolean sleep disorder as factor
+         ) 
+sleep_data <- sleep_data |>
+  mutate(BloodPressure = str_replace_all(BloodPressure, "/.*", ""), #only use systolic bp to determine high/low bp
+         BloodPressure = as.numeric(BloodPressure)) #convert string to numeric
 
-# Split data into training and testing sets
-set.seed(123) # for reproducibility
-split <- initial_split(sleep_data_factor, prop = 0.8)
-train_data <- training(split)
-test_data <- testing(split)
 
+#split data into training and test sets
+set.seed(123)  # for reproducibility
+train_indices <- sample(nrow(sleep_data), 0.7 * nrow(sleep_data))  # 70% for training
+sleep_train <- sleep_data[train_indices, ]
+sleep_test <- sleep_data[-train_indices, ]
 
-# Define model specification (e.g., logistic regression)
-log_reg_spec <- logistic_reg() |>
-  set_engine("glm") |>
-  set_mode("classification")
-
-# Train the model
-log_reg_fit <- log_reg_spec |>
-  fit(QualityofSleep ~ ., data = train_data)
-
-# Check model summary
-summary(log_reg_fit)
-
+head(sleep_train)
+head(sleep_test)
 ```
 
-## evaluation metrics
+
+
+##Build Models
 
 ```{r}
 #| eval: false
-# Load necessary libraries
-library(tidymodels)
-library(forcats)
 
-# Convert QualityofSleep to factor
-sleep_data_factor <- sleep_data %>%
-  mutate(QualityofSleep = factor(QualityofSleep))
+#Define cross-val
+fold <- vfold_cv(sleep_data, v = 5, strata = SleepDisorder)
 
-# Split data into training and testing sets
-set.seed(123) # for reproducibility
-split <- initial_split(sleep_data_factor, prop = 0.8)
-train_data <- training(split)
-test_data <- testing(split)
-
-# Ensure factor levels consistency between training and testing data for BloodPressure variable
-levels_train <- levels(train_data$BloodPressure)
-test_data$BloodPressure <- fct_expand(test_data$BloodPressure, levels_train)
-
-# Define model specification (e.g., logistic regression)
-log_reg_spec <- logistic_reg() %>%
+#Age & Sleep Disorder
+logistic_model_age <- logistic_reg() %>%
   set_engine("glm") %>%
   set_mode("classification")
 
-# Train the model
-log_reg_fit <- log_reg_spec %>%
-  fit(QualityofSleep ~ ., data = train_data)
+#Define recipe
+rec_age <- recipe(SleepDisorder ~ Age, data = sleep_train) |>
+  step_dummy(all_nominal(), -all_outcomes())
 
-# Make predictions on test data
-test_predictions <- predict(log_reg_fit, new_data = test_data)
+# Perform cross-validation
+cv_results_age <- workflow() %>%
+  add_recipe(rec_age) %>%
+  add_model(logistic_model_age) %>%
+  fit_resamples(resamples = fold)
 
-# Calculate evaluation metrics (e.g., accuracy)
-accuracy_metric <- test_predictions %>%
-  metrics(truth = .actual, estimate = .pred_class, accuracy)
 
-# Print accuracy
-accuracy_metric
+#BMI & Sleep Disorder
+logistic_model_bmi <- logistic_reg() %>%
+  set_engine("glm") %>%
+  set_mode("classification")
+
+rec_bmi <- recipe(SleepDisorder ~ BMICategory, data = sleep_train)
+
+cv_results_bmi <- workflow() %>%
+  add_recipe(rec_bmi) %>%
+  add_model(logistic_model_bmi) %>%
+  fit_resamples(resamples = fold)
+
+#Blood Pressure & Sleep Disorder
+logistic_model_bp <- logistic_reg() %>%
+  set_engine("glm") %>%
+  set_mode("classification")
+
+rec_bp <- recipe(SleepDisorder ~ BloodPressure, data = sleep_train)
+
+cv_results_bp <- workflow() %>%
+  add_recipe(rec_bp) %>%
+  add_model(logistic_model_bp) %>%
+  fit_resamples(resamples = fold)
+
+#Quality of Sleep & Sleep Disorder
+logistic_model_sq <- logistic_reg() %>%
+  set_engine("glm") %>%
+  set_mode("classification")
+
+rec_sq <- recipe(SleepDisorder ~ QualityofSleep, data = sleep_train)
+
+cv_results_sq <- workflow() %>%
+  add_recipe(rec_sq) %>%
+  add_model(logistic_model_sq) %>%
+  fit_resamples(resamples = fold)
+
 ```
+
+##Model Predictions 
+
+```{r}
+#| eval: false
+
+#predict age
+rec_age_predict <- recipe(SleepDisorder ~ Age, data = sleep_test)
+
+age_prediction <- workflow() |>
+  add_recipe(rec_age_predict) |>
+  add_model(logistic_model_age)
+
+fit_age_prediction <- fit(age_prediction, data = sleep_train)
+
+predict_age <- predict(fit_age_prediction, new_data = sleep_test)
+head(predict_age)
+
+#predict bmi
+rec_bmi_predict <- recipe(SleepDisorder ~ BMICategory, data = sleep_test)
+
+bmi_prediction <- workflow() |>
+  add_recipe(rec_bmi_predict) |>
+  add_model(logistic_model_bmi)
+
+fit_bmi_prediction <- fit(bmi_prediction, data = sleep_train)
+predict_bmi <- predict(fit_bmi_prediction, new_data = sleep_test)
+head(predict_bmi)
+
+#predict blood pressure
+rec_bp_predict <- recipe(SleepDisorder ~ BloodPressure, data = sleep_test)
+
+bp_prediction <- workflow() |>
+  add_recipe(rec_bp_predict) |>
+  add_model(logistic_model_bp)
+
+fit_bp_prediction <- fit(bp_prediction, data = sleep_train)
+predict_bp <- predict(fit_bp_prediction, new_data = sleep_test)
+head(predict_bp)
+
+#predict sleep quality
+rec_sq_predict <- recipe(SleepDisorder ~ QualityofSleep, data = sleep_test)
+
+sq_prediction <- workflow() |>
+  add_recipe(rec_sq_predict) |>
+  add_model(logistic_model_sq)
+
+fit_sq_prediction <- fit(sq_prediction, data = sleep_train)
+predict_sq <- predict(fit_sq_prediction, new_data = sleep_test)
+head(predict_sq)
+
+```
+## Model Accuracy
+```{r}
+
+#Age
+collect_metrics(cv_results_age)
+
+#BMI
+collect_metrics(cv_results_bmi)
+
+#Blood pressure
+collect_metrics(cv_results_bp)
+
+#Sleep quality
+collect_metrics(cv_results_sq)
+```
+##Multiple Logistic Regression
+```{r}
+# Define the logistic regression model
+logistic_model_multiple <- logistic_reg() |>
+  set_engine("glm") |>
+  set_mode("classification")
+
+# Define the recipe with both BMI and BloodPressure
+rec_multiple <- recipe(SleepDisorder ~ BMICategory + BloodPressure, data = sleep_train)
+
+# Perform cross-validation
+cv_results_multiple <- workflow() %>%
+  add_recipe(rec_multiple) %>%
+  add_model(logistic_model_multiple) %>%
+  fit_resamples(resamples = fold)
+
+#prediction
+rec_multiple_predict <- recipe(SleepDisorder ~ BMICategory + BloodPressure, data = sleep_test)
+
+multi_prediction <- workflow() |>
+  add_recipe(rec_multiple_predict) |>
+  add_model(logistic_model_multiple)
+
+fit_multi_prediction <- fit(multi_prediction, data = sleep_train)
+predict_multi <- predict(fit_multi_prediction, new_data = sleep_test)
+head(predict_multi)
+
+# View the results
+collect_metrics(cv_results_multiple)
+
+
+# Age & Sleep Quality
+logistic_model_asq <- logistic_reg() |>
+  set_engine("glm") |>
+  set_mode("classification")
+
+# Define the recipe with both BMI and BloodPressure
+rec_asq <- recipe(SleepDisorder ~ Age + QualityofSleep, data = sleep_train)
+
+# Perform cross-validation
+cv_results_asq <- workflow() %>%
+  add_recipe(rec_asq) %>%
+  add_model(logistic_model_asq) %>%
+  fit_resamples(resamples = fold)
+
+#prediction
+rec_asq_predict <- recipe(SleepDisorder ~ Age + QualityofSleep, data = sleep_test)
+
+asq_prediction <- workflow() |>
+  add_recipe(rec_asq_predict) |>
+  add_model(logistic_model_asq)
+
+fit_asq_prediction <- fit(asq_prediction, data = sleep_train)
+predict_asq <- predict(fit_asq_prediction, new_data = sleep_test)
+head(predict_asq)
+
+# View the results
+collect_metrics(cv_results_asq)
+
+```
+
+
+
 
 ##Interactive
 
