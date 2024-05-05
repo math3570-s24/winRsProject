@@ -20,14 +20,232 @@ library(tidymodels)
 ```
 
 ## THIS IS THE TITLE
+
 ### subtitle
+
 ```{r, echo = c(2)}
 #| eval: true
-penguins <- readr::read_csv("data/Sleep_health_and_lifestyle_dataset.csv")
-penguins
+
+library(dplyr)
+library(tidyr)
+
+data <- readr::read_csv("data/Sleep_health_and_lifestyle_dataset.csv")
+
+
+sleep_data <- data|>
+  na.omit()
+sleep_data
 ```
 
-
-## THIS IS TITLE 2
+## Heat Map
 
 hello world!
+
+```{r}
+#| eval: true
+# Library
+library(ggplot2)
+
+# Dummy data
+x <- LETTERS[1:20]
+y <- paste0("var", seq(1,20))
+data <- expand.grid(X=x, Y=y)
+data$Z <- runif(400, 0, 5)
+ 
+# Heatmap 
+ggplot(sleep_data, aes(x = SleepDuration, y = PhysicalActivityLevel, fill= QualityofSleep)) +
+  geom_tile()
+```
+
+## Violin Chart
+
+```{r}
+#| eval: true
+# reorder is close to order, but is made to change the order of the factor levels.
+
+sleep_data <- sleep_data |>
+  mutate(QualityofSleep = factor(QualityofSleep))
+
+  ggplot(sleep_data, aes(x=BMICategory, y=Age, fill=QualityofSleep)) + 
+    geom_violin() +
+    xlab("Occupation")
+```
+
+##DensityChart
+
+```{r}
+#|eval: true
+# Libraries
+library(ggplot2)
+library(hrbrthemes)
+library(dplyr)
+library(tidyr)
+library(viridis)
+
+
+# With transparency (right)
+p2 <- ggplot(data = sleep_data, aes(x = DailySteps, color = Occupation, fill = BMICategory)) +
+  geom_density(adjust = 1.5, alpha = 0.4) +
+  scale_fill_viridis(discrete = TRUE) +
+  scale_color_viridis(discrete = TRUE) +
+  theme_ipsum()
+p2
+```
+
+##Dot Plot
+
+```{r}
+#|eval: true
+
+graph1 <- sleep_data |>
+  ggplot(aes(SleepDuration, Age, colour =QualityofSleep, size = PhysicalActivityLevel)) + 
+  geom_point(show.legend = TRUE) + 
+  theme_void() 
+ #+ scale_color_brewer()
+
+graph1
+```
+
+##ggplt circle
+
+```{r}
+#echo: true
+
+sleep_data |>
+  ggplot(aes(SleepDuration, Age, colour =QualityofSleep)) + 
+  geom_point(show.legend = FALSE, size = 4) + 
+  geom_point(show.legend = FALSE, size = 1, colour = "#ffffff") + 
+  coord_polar() + 
+  theme_void()
+```
+
+##model training
+
+```{r}
+#| eval: false
+# Load necessary libraries
+library(tidymodels)
+
+sleep_data_factor <- sleep_data |>
+  mutate(QualityofSleep = factor(QualityofSleep))
+
+# Split data into training and testing sets
+set.seed(123) # for reproducibility
+split <- initial_split(sleep_data_factor, prop = 0.8)
+train_data <- training(split)
+test_data <- testing(split)
+
+
+# Define model specification (e.g., logistic regression)
+log_reg_spec <- logistic_reg() |>
+  set_engine("glm") |>
+  set_mode("classification")
+
+# Train the model
+log_reg_fit <- log_reg_spec |>
+  fit(QualityofSleep ~ ., data = train_data)
+
+# Check model summary
+summary(log_reg_fit)
+
+```
+
+## evaluation metrics
+
+```{r}
+#| eval: false
+# Load necessary libraries
+library(tidymodels)
+library(forcats)
+
+# Convert QualityofSleep to factor
+sleep_data_factor <- sleep_data %>%
+  mutate(QualityofSleep = factor(QualityofSleep))
+
+# Split data into training and testing sets
+set.seed(123) # for reproducibility
+split <- initial_split(sleep_data_factor, prop = 0.8)
+train_data <- training(split)
+test_data <- testing(split)
+
+# Ensure factor levels consistency between training and testing data for BloodPressure variable
+levels_train <- levels(train_data$BloodPressure)
+test_data$BloodPressure <- fct_expand(test_data$BloodPressure, levels_train)
+
+# Define model specification (e.g., logistic regression)
+log_reg_spec <- logistic_reg() %>%
+  set_engine("glm") %>%
+  set_mode("classification")
+
+# Train the model
+log_reg_fit <- log_reg_spec %>%
+  fit(QualityofSleep ~ ., data = train_data)
+
+# Make predictions on test data
+test_predictions <- predict(log_reg_fit, new_data = test_data)
+
+# Calculate evaluation metrics (e.g., accuracy)
+accuracy_metric <- test_predictions %>%
+  metrics(truth = .actual, estimate = .pred_class, accuracy)
+
+# Print accuracy
+accuracy_metric
+```
+
+##Interactive
+
+```{r}
+# Load necessary libraries
+library(plotly)
+
+# Create an interactive plot
+```
+
+```{r}
+interactive_plot <- sleep_data %>%
+  plot_ly(x = ~SleepDuration, y = ~Age, color = ~QualityofSleep, type = "scatter", mode = "markers") %>%
+  layout(title = "Sleep Quality by Age and Sleep Duration",
+         xaxis = list(title = "Sleep Duration"),
+         yaxis = list(title = "Age"))
+
+# Display the plot
+interactive_plot
+
+```
+
+##User input
+
+```{r}
+#| eval: false
+# Load necessary libraries
+library(shiny)
+
+# Define UI
+ui <- fluidPage(
+  titlePanel("Sleep Quality Predictor"),
+  sidebarLayout(
+    sidebarPanel(
+      # Input fields for sleep data
+      numericInput("sleep_duration", "Sleep Duration (hours):", value = 7),
+      numericInput("age", "Age:", value = 30),
+      # Add more input fields as needed
+    ),
+    mainPanel(
+      # Output plot or result
+      plotOutput("prediction_plot")
+    )
+  )
+)
+
+# Define server logic
+server <- function(input, output) {
+  output$prediction_plot <- renderPlot({
+    # Use input values to make predictions and create plot
+    # Example: predict sleep quality based on input sleep duration and age
+    # Display the plot or result
+  })
+}
+
+# Run the Shiny app
+shinyApp(ui = ui, server = server)
+```
