@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Maddie Flint, Katy Carter, Michael Hankins, Allan Akkathara">
-<meta name="dcterms.date" content="2024-04-11">
+<meta name="dcterms.date" content="2024-05-06">
 
 <title>final project name goes here</title>
 <style>
@@ -85,7 +85,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#subtitle" id="toc-subtitle" class="nav-link" data-scroll-target="#subtitle">subtitle</a></li>
   </ul></li>
-  <li><a href="#this-is-title-2" id="toc-this-is-title-2" class="nav-link" data-scroll-target="#this-is-title-2">THIS IS TITLE 2</a></li>
+  <li><a href="#heat-map" id="toc-heat-map" class="nav-link" data-scroll-target="#heat-map">Heat Map</a></li>
+  <li><a href="#violin-chart" id="toc-violin-chart" class="nav-link" data-scroll-target="#violin-chart">Violin Chart</a></li>
+  <li><a href="#model-accuracy" id="toc-model-accuracy" class="nav-link" data-scroll-target="#model-accuracy">Model Accuracy</a></li>
   </ul>
 </nav>
 </div>
@@ -111,7 +113,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 11, 2024</p>
+      <p class="date">May 6, 2024</p>
     </div>
   </div>
   
@@ -129,41 +131,82 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="subtitle">subtitle</h3>
 <div class="cell">
 <div class="cell-output cell-output-stderr">
-<pre><code>Rows: 374 Columns: 13
-── Column specification ────────────────────────────────────────────────────────
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 374 Columns: 13</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Column specification ────────────────────────────────────────────────────────
 Delimiter: ","
-chr (5): Gender, Occupation, BMI Category, Blood Pressure, Sleep Disorder
-dbl (8): Person ID, Age, Sleep Duration, Quality of Sleep, Physical Activity...
+chr (5): Gender, Occupation, BMICategory, BloodPressure, SleepDisorder
+dbl (8): PersonID, Age, SleepDuration, QualityofSleep, PhysicalActivityLevel...
 
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>penguins</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 374 × 13
-   `Person ID` Gender   Age Occupation       `Sleep Duration` `Quality of Sleep`
-         &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;                       &lt;dbl&gt;              &lt;dbl&gt;
- 1           1 Male      27 Software Engine…              6.1                  6
- 2           2 Male      28 Doctor                        6.2                  6
- 3           3 Male      28 Doctor                        6.2                  6
- 4           4 Male      28 Sales Represent…              5.9                  4
- 5           5 Male      28 Sales Represent…              5.9                  4
- 6           6 Male      28 Software Engine…              5.9                  4
- 7           7 Male      29 Teacher                       6.3                  6
- 8           8 Male      29 Doctor                        7.8                  7
- 9           9 Male      29 Doctor                        7.8                  7
-10          10 Male      29 Doctor                        7.8                  7
+   PersonID Gender   Age Occupation           SleepDuration QualityofSleep
+      &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;                        &lt;dbl&gt;          &lt;dbl&gt;
+ 1        1 Male      27 Software Engineer              6.1              6
+ 2        2 Male      28 Doctor                         6.2              6
+ 3        3 Male      28 Doctor                         6.2              6
+ 4        4 Male      28 Sales Representative           5.9              4
+ 5        5 Male      28 Sales Representative           5.9              4
+ 6        6 Male      28 Software Engineer              5.9              4
+ 7        7 Male      29 Teacher                        6.3              6
+ 8        8 Male      29 Doctor                         7.8              7
+ 9        9 Male      29 Doctor                         7.8              7
+10       10 Male      29 Doctor                         7.8              7
 # ℹ 364 more rows
-# ℹ 7 more variables: `Physical Activity Level` &lt;dbl&gt;, `Stress Level` &lt;dbl&gt;,
-#   `BMI Category` &lt;chr&gt;, `Blood Pressure` &lt;chr&gt;, `Heart Rate` &lt;dbl&gt;,
-#   `Daily Steps` &lt;dbl&gt;, `Sleep Disorder` &lt;chr&gt;</code></pre>
+# ℹ 7 more variables: PhysicalActivityLevel &lt;dbl&gt;, StressLevel &lt;dbl&gt;,
+#   BMICategory &lt;chr&gt;, BloodPressure &lt;chr&gt;, HeartRate &lt;dbl&gt;, DailySteps &lt;dbl&gt;,
+#   SleepDisorder &lt;chr&gt;</code></pre>
 </div>
 </div>
 </section>
 </section>
-<section id="this-is-title-2" class="level2">
-<h2 class="anchored" data-anchor-id="this-is-title-2">THIS IS TITLE 2</h2>
-<p>hello world!</p>
+<section id="heat-map" class="level2">
+<h2 class="anchored" data-anchor-id="heat-map">Heat Map</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="WinRsCode_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="violin-chart" class="level2">
+<h2 class="anchored" data-anchor-id="violin-chart">Violin Chart</h2>
+<p>##DensityChart</p>
+<p>##Dot Plot</p>
+<p>##ggplt circle</p>
+<p>##RidgeLine</p>
+<p>##Logistic Regression Models</p>
+<p>###Data Transformation</p>
+<p>##Build Models</p>
+<p>##Model Predictions</p>
+</section>
+<section id="model-accuracy" class="level2">
+<h2 class="anchored" data-anchor-id="model-accuracy">Model Accuracy</h2>
+<p>##Multiple Logistic Regression</p>
+<p>##Interactive</p>
+<p>##User input</p>
 </section>
 
 </main>

@@ -7,8 +7,10 @@ format:
    html:
     toc: true
 execute:
-  echo: true
+  echo: false
   eval: false
+  fig-height: 3
+  fig-width: 5
 ---
 
 ```{r}
@@ -39,28 +41,22 @@ sleep_data
 
 ## Heat Map
 
-hello world!
-
 ```{r}
 #| eval: true
 # Library
 library(ggplot2)
-
-# Dummy data
-x <- LETTERS[1:20]
-y <- paste0("var", seq(1,20))
-data <- expand.grid(X=x, Y=y)
-data$Z <- runif(400, 0, 5)
  
 # Heatmap 
-ggplot(sleep_data, aes(x = SleepDuration, y = PhysicalActivityLevel, fill= QualityofSleep)) +
+heatMap <- ggplot(sleep_data, aes(x = SleepDuration, y = PhysicalActivityLevel, fill= QualityofSleep)) +
   geom_tile()
+
+print(heatMap)
 ```
 
 ## Violin Chart
 
 ```{r}
-#| eval: true
+#| eval: false
 # reorder is close to order, but is made to change the order of the factor levels.
 
 sleep_data <- sleep_data |>
@@ -68,13 +64,13 @@ sleep_data <- sleep_data |>
 
   ggplot(sleep_data, aes(x=BMICategory, y=Age, fill=QualityofSleep)) + 
     geom_violin() +
-    xlab("Occupation")
+    xlab("BMI Category")
 ```
 
 ##DensityChart
 
 ```{r}
-#|eval: true
+#|eval: false
 # Libraries
 library(ggplot2)
 library(hrbrthemes)
@@ -84,7 +80,7 @@ library(viridis)
 
 
 # With transparency (right)
-p2 <- ggplot(data = sleep_data, aes(x = DailySteps, color = Occupation, fill = BMICategory)) +
+p2 <- ggplot(data = sleep_data, aes(x = DailySteps, fill = BMICategory)) +
   geom_density(adjust = 1.5, alpha = 0.4) +
   scale_fill_viridis(discrete = TRUE) +
   scale_color_viridis(discrete = TRUE) +
@@ -95,10 +91,10 @@ p2
 ##Dot Plot
 
 ```{r}
-#|eval: true
+#|eval: false
 
 graph1 <- sleep_data |>
-  ggplot(aes(SleepDuration, Age, colour =QualityofSleep, size = PhysicalActivityLevel)) + 
+  ggplot(aes(SleepDuration, Age, colour = QualityofSleep, size = PhysicalActivityLevel)) + 
   geom_point(show.legend = TRUE) + 
   theme_void() 
  #+ scale_color_brewer()
@@ -113,11 +109,35 @@ graph1
 
 sleep_data |>
   ggplot(aes(SleepDuration, Age, colour =QualityofSleep)) + 
-  geom_point(show.legend = FALSE, size = 4) + 
-  geom_point(show.legend = FALSE, size = 1, colour = "#ffffff") + 
+  geom_point(size = 4) + 
+  geom_point(size = 1, colour = "#ffffff") + 
   coord_polar() + 
   theme_void()
 ```
+
+##RidgeLine
+```{r}
+#| eval: false
+#| echo: false
+# library
+library(ggridges)
+library(ggplot2)
+library(viridis)
+library(hrbrthemes)
+
+# Plot
+ggplot(sleep_data, aes(x = QualityofSleep, y = PhysicalActivityLevel, fill = ..x..)) +
+  geom_density_ridges_gradient(scale = 3, rel_min_height = 0.01) +
+  scale_fill_viridis(name = "Temp. [F]", option = "C") +
+  labs(title = 'How your physical activity level change your quality of sleep') +
+  theme_ipsum() +
+    theme(
+      legend.position="none",
+      panel.spacing = unit(0.1, "lines"),
+      strip.text.x = element_text(size = 8)
+    )
+```
+
 
 ##Logistic Regression Models
 
@@ -284,6 +304,7 @@ collect_metrics(cv_results_bp)
 #Sleep quality
 collect_metrics(cv_results_sq)
 ```
+
 ##Multiple Logistic Regression
 ```{r}
 # Define the logistic regression model
@@ -346,6 +367,32 @@ collect_metrics(cv_results_asq)
 ```
 
 
+##Model Training
+```{r}
+#|eval: true
+
+# Convert SleepDisorder to factor
+sleep_data$SleepDisorder <- factor(sleep_data$SleepDisorder)
+levels(sleep_data$SleepDisorder)
+
+# Train the logistic regression model
+log_reg_spec <- logistic_reg() |>
+  set_engine("glm") |>
+  set_mode("classification")
+
+log_reg_fit <- log_reg_spec |>
+  fit(SleepDisorder ~ ., data = train_data)
+```
+
+##Model Evaluation
+```{r}
+# Optionally, you can evaluate the performance of the trained model using appropriate metrics
+log_reg_fit %>%
+  predict(test_data) |>
+  bind_cols(test_data) |>
+  metrics(truth = SleepDisorder, estimate = .pred_class)
+
+```
 
 
 ##Interactive
@@ -354,10 +401,7 @@ collect_metrics(cv_results_asq)
 # Load necessary libraries
 library(plotly)
 
-# Create an interactive plot
-```
 
-```{r}
 interactive_plot <- sleep_data %>%
   plot_ly(x = ~SleepDuration, y = ~Age, color = ~QualityofSleep, type = "scatter", mode = "markers") %>%
   layout(title = "Sleep Quality by Age and Sleep Duration",
@@ -366,14 +410,13 @@ interactive_plot <- sleep_data %>%
 
 # Display the plot
 interactive_plot
-
 ```
 
 ##User input
 
 ```{r}
 #| eval: false
-# Load necessary libraries
+#shiny library
 library(shiny)
 
 # Define UI
@@ -395,13 +438,19 @@ ui <- fluidPage(
 
 # Define server logic
 server <- function(input, output) {
-  output$prediction_plot <- renderPlot({
-    # Use input values to make predictions and create plot
-    # Example: predict sleep quality based on input sleep duration and age
-    # Display the plot or result
+  output$prediction_result <- renderText({
+    # Use input values to make predictions
+    new_data <- tibble(
+      SleepDuration = input$sleep_duration,
+      Age = input$age
+      # Add more variables as needed
+    )
+    prediction <- predict(log_reg_fit, new_data)
+    ifelse(prediction == 1, "Likely to have sleep disorder", "Unlikely to have sleep disorder")
   })
 }
 
 # Run the Shiny app
 shinyApp(ui = ui, server = server)
+
 ```
