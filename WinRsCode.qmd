@@ -19,6 +19,7 @@ execute:
 library(reticulate)
 library(tidyverse)
 library(tidymodels)
+library(ggprism)
 ```
 
 ## THIS IS THE TITLE
@@ -48,7 +49,8 @@ library(ggplot2)
  
 # Heatmap 
 heatMap <- ggplot(sleep_data, aes(x = SleepDuration, y = PhysicalActivityLevel, fill= QualityofSleep)) +
-  geom_tile()
+  geom_tile() + 
+  theme_prism()
 
 print(heatMap)
 ```
@@ -64,7 +66,8 @@ sleep_data <- sleep_data |>
 
   ggplot(sleep_data, aes(x=BMICategory, y=Age, fill=QualityofSleep)) + 
     geom_violin() +
-    xlab("BMI Category")
+    xlab("BMI Category") + 
+    theme_prism()
 ```
 
 ##DensityChart
@@ -381,15 +384,15 @@ log_reg_spec <- logistic_reg() |>
   set_mode("classification")
 
 log_reg_fit <- log_reg_spec |>
-  fit(SleepDisorder ~ ., data = train_data)
+  fit(SleepDisorder ~ ., data = sleep_train)
 ```
 
 ##Model Evaluation
 ```{r}
 # Optionally, you can evaluate the performance of the trained model using appropriate metrics
 log_reg_fit %>%
-  predict(test_data) |>
-  bind_cols(test_data) |>
+  predict(sleep_test) |>
+  bind_cols(sleep_test) |>
   metrics(truth = SleepDisorder, estimate = .pred_class)
 
 ```
