@@ -1,9 +1,6 @@
 
-​
-Carter, Katy
-​
 ---
-title: "final project name goes here"
+title: "Sleep Analysis"
 subtitle: "MATH/COSC 3570 Spring 2024"
 date: today
 author: "Maddie Flint, Katy Carter, Michael Hankins, Allan Akkathara"
@@ -25,9 +22,9 @@ library(tidyverse)
 library(tidymodels)
 ```
 
-## THIS IS THE TITLE
+## How You Can Sleep Better: A Data Analysis
 
-### subtitle
+
 
 ```{r, echo = c(2)}
 #| eval: true
@@ -43,19 +40,71 @@ sleep_data <- data|>
 sleep_data
 ```
 
-## Heat Map
+
+## Bind Chart
 
 ```{r}
 #| eval: true
-# Library
+#| echo: false
 library(ggplot2)
- 
-# Heatmap 
-heatMap <- ggplot(sleep_data, aes(x = SleepDuration, y = PhysicalActivityLevel, fill= QualityofSleep)) +
-  geom_tile()
 
-print(heatMap)
+sleep_data |> ggplot(mapping = aes(x = `PhysicalActivityLevel`,
+                        y = `SleepDuration` )) +  
+  geom_bin2d(bins = 70) +
+  scale_fill_continuous(type = "viridis") +
+  geom_bin2d() +
+  theme_bw()
 ```
+
+## Stacked Chart
+
+```{r}
+#| eval: true
+#| echo: false
+sleep_data |> ggplot(mapping = aes(x=`PhysicalActivityLevel`, y=`QualityofSleep`, fill=Occupation)) + 
+    geom_area()
+```
+
+
+
+## Tile Chart
+
+```{r}
+#| eval: true
+#| echo: false
+sleep_data_2 <- readr::read_csv("data/Sleep_health_and_lifestyle_dataset.csv")
+sleep_data_2 |> ggplot(mapping = aes(x= `HeartRate`, y=`QualityofSleep`, fill= `SleepDisorder`)) + 
+  geom_tile()
+```
+
+
+
+## Line Chart 
+
+```{r}
+#| eval: true
+#| echo: false
+sleep_data_2 |> ggplot(mapping = aes(x= Age, y=`QualityofSleep`, color = `SleepDisorder`))  + geom_line()
+```
+
+
+
+
+## DensityChart
+
+```{r}
+#| eval: true
+#| echo: false
+
+# Libraries
+library(ggplot2)
+library(hrbrthemes)
+p2 <- ggplot(data = sleep_data, aes(x = DailySteps, fill = BMICategory)) +
+  geom_density(alpha = 0.6) +
+  theme_ipsum()
+p2
+```
+
 
 ## Violin Chart
 
@@ -78,7 +127,7 @@ sleep_data <- sleep_data |>
 #| echo: false
 
 
-ggplot(aes(x = Gender, y = QualityofSleep), data = sleep_data) + stat_summary(fun.y = "mean", geom = "bar")
+ggplot(aes(x = Gender, y = QualityofSleep, fill = Gender),  data = sleep_data) + stat_summary(fun.y = "mean", geom = "bar")
 
 ```
 
@@ -89,11 +138,12 @@ ggplot(aes(x = Gender, y = QualityofSleep), data = sleep_data) + stat_summary(fu
 #| echo: false
 
 
-ggplot(aes(x = Gender, y = SleepDuration), data = sleep_data) + stat_summary(fun.y = "mean", geom = "bar")
+ggplot(aes(x = Gender, y = SleepDuration, fill = Gender), data = sleep_data) + stat_summary(fun.y = "mean", geom = "bar")
 
 ```
 
 ## Average Quality of Sleep by Occupation
+
 
 ```{r}
 #| eval: true
@@ -102,51 +152,20 @@ ggplot(aes(x = Gender, y = SleepDuration), data = sleep_data) + stat_summary(fun
 
 #figure out a way to spread bottom labels
 
-ggplot(aes(x = Occupation, y = QualityofSleep), data = sleep_data) + stat_summary(fun.y = "mean", geom = "bar")
+ggplot(aes(x = Occupation, y = QualityofSleep, fill = Occupation), data = sleep_data) + stat_summary(fun.y = "mean", geom = "bar")
 
 ```
 
 
 ## Averge Time Slept by Occupation
-```{r}
-#| eval: true
-#| echo: false
 
-
-ggplot(aes(x = Occupation, y = SleepDuration), data = sleep_data) + stat_summary(fun.y = "mean", geom = "bar")
-
-```
-
-## Quality of Sleep by Age
 
 ```{r}
 #| eval: true
 #| echo: false
 
 
-ggplot(aes(x = Age, y = QualityofSleep), data = sleep_data) + stat_summary(fun.y = "mean", geom = "Density")
-
-```
-
-## Average Time Slept by Age
-
-```{r}
-#| eval: true
-#| echo: false
-
-
-ggplot(aes(x = Age, y = SleepDuration), data = sleep_data) + stat_summary(fun.y = "mean", geom = "Density")
-
-```
-
-## Average Quality of Sleep by Sleep Disorder
-
-```{r}
-#| eval: true
-#| echo: false
-
-
-ggplot(aes(x = SleepDisorder, y = QualityofSleep), data = sleep_data) + stat_summary(fun.y = "mean", geom = "bar")
+ggplot(aes(x = Occupation, y = SleepDuration, fill = Occupation), data = sleep_data) + stat_summary(fun.y = "mean", geom = "bar")
 
 ```
 
@@ -157,34 +176,13 @@ ggplot(aes(x = SleepDisorder, y = QualityofSleep), data = sleep_data) + stat_sum
 #| echo: false
 
 
-ggplot(aes(x = SleepDisorder, y = SleepDuration), data = sleep_data) + stat_summary(fun.y = "mean", geom = "bar")
+ggplot(aes(x = SleepDisorder, y = SleepDuration, fill = SleepDisorder), data = sleep_data) + stat_summary(fun.y = "mean", geom = "bar")
 
 ```
 
-## Average Quality of Sleep by Physical Activity Level
-### FIX
-
-```{r}
-#| eval: true
-#| echo: false
-
-
-ggplot(aes(x = PhysicalActivityLevel, y = QualityofSleep), data = sleep_data) + stat_summary(fun.y = "mean", geom = "bar")
-
-```
-
-## Average Time Slept by Physical Activity Level
-
-```{r}
-#| eval: true
-#| echo: false
-
-
-ggplot(aes(x = PhysicalActivityLevel, y = SleepDuration), data = sleep_data) + stat_summary(fun.y = "mean", geom = "bar")
-
-```
 
 ## Correlogram
+
 ```{r}
 #| eval: true
 #| echo: false
@@ -218,28 +216,13 @@ options(repr.plot.width = 15, repr.plot.height = 6)
 plotcorr(correlation_matrix_ord, col = my_colors[correlation_matrix_ord * 50 + 50], mar = c(1, 1, 1, 1))
 
 ```
-## Beeswarm Graph
-
-```{r}
-#|eval: true
-#|echo: false
-
-# Load necessary libraries
-library(ggplot2)
-library(ggbeeswarm)
-
-
-ggplot(sleep_data, aes(x = PhysicalActivityLevel, y = QualityofSleep)) +
-  geom_beeswarm()
-
-```
 
 
 ## DensityChart
 
 ```{r}
 #|eval: true
-#|echo: false
+#|echo: false 
 
 # Libraries
 library(ggplot2)
@@ -252,9 +235,8 @@ library(viridis)
 # With transparency (right)
 p2 <- ggplot(data = sleep_data, aes(x = DailySteps, fill = BMICategory)) +
   geom_density(adjust = 1.5, alpha = 0.4) +
-  scale_fill_viridis(discrete = TRUE) +
-  scale_color_viridis(discrete = TRUE) +
   theme_ipsum()
+p2
 ```
 
 ## Dot Plot
@@ -274,7 +256,8 @@ graph1
 ##ggplt circle
 
 ```{r}
-#echo: true
+#| eval: true
+#| echo: false
 
 sleep_data |>
   ggplot(aes(SleepDuration, Age, colour =QualityofSleep)) + 
@@ -284,35 +267,16 @@ sleep_data |>
   theme_void()
 ```
 
-##RidgeLine
-```{r}
-#| eval: false
-#| echo: false
-# library
-library(ggridges)
-library(ggplot2)
-library(viridis)
-library(hrbrthemes)
-
-# Plot
-ggplot(sleep_data, aes(x = QualityofSleep, y = PhysicalActivityLevel, fill = ..x..)) +
-  geom_density_ridges_gradient(scale = 3, rel_min_height = 0.01) +
-  scale_fill_viridis(name = "Temp. [F]", option = "C") +
-  labs(title = 'How your physical activity level change your quality of sleep') +
-  theme_ipsum() +
-    theme(
-      legend.position="none",
-      panel.spacing = unit(0.1, "lines"),
-      strip.text.x = element_text(size = 8)
-    )
-```
-
 
 ##Logistic Regression Models
 
 ###Data Transformation
 
 ```{r}
+#| eval: true
+#| echo: true
+
+library(readr)
 sleep_data <- read_csv("./data/Sleep_health_and_lifestyle_dataset.csv")
 
 library(dplyr)
@@ -345,10 +309,11 @@ head(sleep_test)
 
 
 
-##Build Models
+###Model Building
 
 ```{r}
-#| eval: false
+#| eval: true
+#| echo: true
 
 #Define cross-val
 fold <- vfold_cv(sleep_data, v = 5, strata = SleepDisorder)
@@ -411,6 +376,7 @@ cv_results_sq <- workflow() %>%
 
 ```{r}
 #| eval: false
+#| echo: true
 
 #predict age
 rec_age_predict <- recipe(SleepDisorder ~ Age, data = sleep_test)
@@ -458,9 +424,12 @@ predict_sq <- predict(fit_sq_prediction, new_data = sleep_test)
 head(predict_sq)
 
 ```
+
+
 ## Model Accuracy
 ```{r}
-
+#| eval: true
+#| echo: true
 #Age
 collect_metrics(cv_results_age)
 
@@ -474,8 +443,11 @@ collect_metrics(cv_results_bp)
 collect_metrics(cv_results_sq)
 ```
 
+
 ##Multiple Logistic Regression
 ```{r}
+#| eval: true
+#| echo: true
 # Define the logistic regression model
 logistic_model_multiple <- logistic_reg() |>
   set_engine("glm") |>
@@ -536,39 +508,6 @@ collect_metrics(cv_results_asq)
 ```
 
 
-##Model Training
-```{r}
-#|eval: true
-
-
-data <- readr::read_csv("data/Sleep_health_and_lifestyle_dataset.csv")
-sleep_data <- data|>
-  na.omit()
-sleep_data
-
-# Convert SleepDisorder to factor
-sleep_data$SleepDisorder <- factor(sleep_data$SleepDisorder)
-levels(sleep_data$SleepDisorder)
-
-# Train the logistic regression model
-log_reg_spec <- logistic_reg() |>
-  set_engine("glm") |>
-  set_mode("classification")
-
-log_reg_fit <- log_reg_spec |>
-  fit(SleepDisorder ~ ., data = train_data)
-```
-
-##Model Evaluation
-```{r}
-
-log_reg_fit |>
-  predict(test_data) |>
-  bind_cols(test_data) |>
-  metrics(truth = SleepDisorder, estimate = .pred_class)
-
-```
-
 
 ##Interactive
 
@@ -576,7 +515,9 @@ log_reg_fit |>
 #| eval: true
 # Load necessary libraries
 library(plotly)
+library(readr)
 
+sleep_data <- read_csv('./data/Sleep_health_and_lifestyle_dataset.csv')
 
 interactive_plot <- sleep_data %>%
   plot_ly(x = ~SleepDuration, y = ~Age, color = ~QualityofSleep, type = "scatter", mode = "markers") %>%
@@ -588,45 +529,102 @@ interactive_plot <- sleep_data %>%
 interactive_plot
 ```
 
-##User input
 
+
+## Occupation that pops up the most on our dataset.
 ```{r}
-#| eval: false
-#shiny library
-library(shiny)
+data <- readr::read_csv("data/Sleep_health_and_lifestyle_dataset.csv")
 
-# Define UI
+library(dplyr)
+
+# Group by the variable and summarize with count
+data |>
+  group_by(Occupation) |>
+  summarise(frequency = n()) |>
+  arrange(desc(frequency))  # Sort by frequency (optional)
+
+```
+
+
+## Linear Regression on Sleep Duration and Quality of Sleep
+```{r}
+library(tidymodels)
+library(dplyr)
+library(shiny)
+#install.packages("pdp")
+library(pdp)
+
+data <- readr::read_csv("data/Sleep_health_and_lifestyle_dataset.csv")
+
+data <- data |>
+  mutate(Gender = as.factor(Gender),
+         BMI_Category = as.factor(BMICategory),
+         PhysicalActivityLevel = as.numeric(PhysicalActivityLevel),
+         StressLevel = as.numeric(StressLevel),
+         DailySteps = as.numeric(DailySteps),
+         SleepDuration = as.numeric(SleepDuration),
+         QualityofSleep = as.numeric(QualityofSleep)) 
+
+model_fit <- lm(SleepDuration ~ Age + PhysicalActivityLevel + StressLevel + BMI_Category + DailySteps + Gender,
+              data = data)
+model_fit_quality <- lm(QualityofSleep ~ Age + PhysicalActivityLevel + StressLevel + BMI_Category + DailySteps + Gender,
+              data = data)
+# Plot sleep duration vs fitted values from the model
+ggplot(data = data,
+       mapping = aes(x = SleepDuration, y = predict(model_fit))) +
+  geom_point(size = 1, alpha = 0.8) +
+  geom_smooth(method = "lm", se = FALSE)
+# Plot sleep quality vs fitted values from the model
+ggplot(data = data,
+       mapping = aes(x = QualityofSleep, y = predict(model_fit_quality))) +
+  geom_point(size = 1, alpha = 0.8) +
+  geom_smooth(method = "lm", se = FALSE)
+
+
+######################################################## UI using Shiny.
+
 ui <- fluidPage(
-  titlePanel("Sleep Quality Predictor"),
+  titlePanel("Sleep Duration Prediction"),
   sidebarLayout(
     sidebarPanel(
-      # Input fields for sleep data
-      numericInput("sleep_duration", "Sleep Duration (hours):", value = 7),
-      numericInput("age", "Age:", value = 30),
-      # Add more input fields as needed
+      textInput("age", "Enter your age (years)"),
+      textInput("PhysicalActivityLevel", "Enter your PhysicalActivityLevel (min/day)"),
+      textInput("StressLevel", "Enter your StressLevel (scale: 1-10)"),
+      radioButtons("BMI_Category", "BMI Category:",
+                  choices = c("Normal", "Overweight", "Obese")),
+      textInput("DailySteps", "Enter your DailySteps (eg: 4200)"),
+      radioButtons("Gender", "Gender:",
+                  choices = c("Male", "Female")),
+      submitButton("Predict Sleep Duration")
     ),
     mainPanel(
-      # Output plot or result
-      plotOutput("prediction_plot")
+      h3("Predicted Sleep Duration"),
+      verbatimTextOutput("prediction"),
+      br(),
+      h3("Predicted Sleep Quality"),
+      verbatimTextOutput("quality_prediction")
+      # plotOutput("pdp_plot")
     )
   )
 )
 
-# Define server logic
 server <- function(input, output) {
-  output$prediction_result <- renderText({
-    # Use input values to make predictions
-    new_data <- tibble(
-      SleepDuration = input$sleep_duration,
-      Age = input$age
-      # Add more variables as needed
+  output$prediction <- renderPrint({
+    new_data <- data.frame(
+      Age = as.numeric(input$age),
+      PhysicalActivityLevel = as.numeric(input$PhysicalActivityLevel),
+      StressLevel = as.numeric(input$StressLevel),
+      BMI_Category = as.factor(input$BMI_Category),
+      DailySteps = as.numeric(input$DailySteps),
+      Gender = as.factor(input$Gender)
     )
-    prediction <- predict(log_reg_fit, new_data)
-    ifelse(prediction == 1, "Likely to have sleep disorder", "Unlikely to have sleep disorder")
+    predicted_sleep <- round(predict(model_fit, newdata = new_data), digits = 2)  # Round sleep duration (2 decimals)
+    predicted_quality <- round(predict(model_fit_quality, newdata = new_data), digits = 1)  # Round sleep quality (1 decimal)
+    paste("Predicted sleep duration:", predicted_sleep, "hours\n",
+          "Predicted sleep quality:", predicted_quality)  # Combine outputs
   })
+
 }
 
-# Run the Shiny app
 shinyApp(ui = ui, server = server)
-
 ```

@@ -9,7 +9,7 @@
 <meta name="author" content="Maddie Flint, Katy Carter, Michael Hankins, Allan Akkathara">
 <meta name="dcterms.date" content="2024-05-06">
 
-<title>final project name goes here</title>
+<title>Sleep Analysis</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -69,6 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="WinRsCode_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="WinRsCode_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="WinRsCode_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="WinRsCode_files/libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="WinRsCode_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="WinRsCode_files/libs/plotly-binding-4.10.4/plotly.js"></script>
+<script src="WinRsCode_files/libs/typedarray-0.1/typedarray.min.js"></script>
+<script src="WinRsCode_files/libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="WinRsCode_files/libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+<script src="WinRsCode_files/libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<link href="WinRsCode_files/libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="WinRsCode_files/libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
 
 
 </head>
@@ -81,13 +90,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#this-is-the-title" id="toc-this-is-the-title" class="nav-link active" data-scroll-target="#this-is-the-title">THIS IS THE TITLE</a>
-  <ul class="collapse">
-  <li><a href="#subtitle" id="toc-subtitle" class="nav-link" data-scroll-target="#subtitle">subtitle</a></li>
-  </ul></li>
-  <li><a href="#heat-map" id="toc-heat-map" class="nav-link" data-scroll-target="#heat-map">Heat Map</a></li>
+  <li><a href="#how-you-can-sleep-better-a-data-analysis" id="toc-how-you-can-sleep-better-a-data-analysis" class="nav-link active" data-scroll-target="#how-you-can-sleep-better-a-data-analysis">How You Can Sleep Better: A Data Analysis</a></li>
+  <li><a href="#bind-chart" id="toc-bind-chart" class="nav-link" data-scroll-target="#bind-chart">Bind Chart</a></li>
+  <li><a href="#stacked-chart" id="toc-stacked-chart" class="nav-link" data-scroll-target="#stacked-chart">Stacked Chart</a></li>
+  <li><a href="#tile-chart" id="toc-tile-chart" class="nav-link" data-scroll-target="#tile-chart">Tile Chart</a></li>
+  <li><a href="#line-chart" id="toc-line-chart" class="nav-link" data-scroll-target="#line-chart">Line Chart</a></li>
+  <li><a href="#densitychart" id="toc-densitychart" class="nav-link" data-scroll-target="#densitychart">DensityChart</a></li>
   <li><a href="#violin-chart" id="toc-violin-chart" class="nav-link" data-scroll-target="#violin-chart">Violin Chart</a></li>
+  <li><a href="#average-quality-of-sleep-by-gender" id="toc-average-quality-of-sleep-by-gender" class="nav-link" data-scroll-target="#average-quality-of-sleep-by-gender">Average Quality of Sleep by Gender</a></li>
+  <li><a href="#average-time-slept-by-gender" id="toc-average-time-slept-by-gender" class="nav-link" data-scroll-target="#average-time-slept-by-gender">Average Time Slept by Gender</a></li>
+  <li><a href="#average-quality-of-sleep-by-occupation" id="toc-average-quality-of-sleep-by-occupation" class="nav-link" data-scroll-target="#average-quality-of-sleep-by-occupation">Average Quality of Sleep by Occupation</a></li>
+  <li><a href="#averge-time-slept-by-occupation" id="toc-averge-time-slept-by-occupation" class="nav-link" data-scroll-target="#averge-time-slept-by-occupation">Averge Time Slept by Occupation</a></li>
+  <li><a href="#average-time-slept-by-sleep-disorder" id="toc-average-time-slept-by-sleep-disorder" class="nav-link" data-scroll-target="#average-time-slept-by-sleep-disorder">Average Time Slept by Sleep Disorder</a></li>
+  <li><a href="#correlogram" id="toc-correlogram" class="nav-link" data-scroll-target="#correlogram">Correlogram</a></li>
+  <li><a href="#densitychart-1" id="toc-densitychart-1" class="nav-link" data-scroll-target="#densitychart-1">DensityChart</a></li>
+  <li><a href="#dot-plot" id="toc-dot-plot" class="nav-link" data-scroll-target="#dot-plot">Dot Plot</a></li>
   <li><a href="#model-accuracy" id="toc-model-accuracy" class="nav-link" data-scroll-target="#model-accuracy">Model Accuracy</a></li>
+  <li><a href="#occupation-that-pops-up-the-most-on-our-dataset." id="toc-occupation-that-pops-up-the-most-on-our-dataset." class="nav-link" data-scroll-target="#occupation-that-pops-up-the-most-on-our-dataset.">Occupation that pops up the most on our dataset.</a></li>
+  <li><a href="#linear-regression-on-sleep-duration-and-quality-of-sleep" id="toc-linear-regression-on-sleep-duration-and-quality-of-sleep" class="nav-link" data-scroll-target="#linear-regression-on-sleep-duration-and-quality-of-sleep">Linear Regression on Sleep Duration and Quality of Sleep</a></li>
   </ul>
 </nav>
 </div>
@@ -95,7 +115,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">final project name goes here</h1>
+<h1 class="title">Sleep Analysis</h1>
 <p class="subtitle lead">MATH/COSC 3570 Spring 2024</p>
 </div>
 
@@ -125,10 +145,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="this-is-the-title" class="level2">
-<h2 class="anchored" data-anchor-id="this-is-the-title">THIS IS THE TITLE</h2>
-<section id="subtitle" class="level3">
-<h3 class="anchored" data-anchor-id="subtitle">subtitle</h3>
+<section id="how-you-can-sleep-better-a-data-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="how-you-can-sleep-better-a-data-analysis">How You Can Sleep Better: A Data Analysis</h2>
 <div class="cell">
 <div class="cell-output cell-output-stderr">
 <pre><code>
@@ -178,9 +196,8 @@ dbl (8): PersonID, Age, SleepDuration, QualityofSleep, PhysicalActivityLevel...
 </div>
 </div>
 </section>
-</section>
-<section id="heat-map" class="level2">
-<h2 class="anchored" data-anchor-id="heat-map">Heat Map</h2>
+<section id="bind-chart" class="level2">
+<h2 class="anchored" data-anchor-id="bind-chart">Bind Chart</h2>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -191,22 +208,573 @@ dbl (8): PersonID, Age, SleepDuration, QualityofSleep, PhysicalActivityLevel...
 </div>
 </div>
 </section>
+<section id="stacked-chart" class="level2">
+<h2 class="anchored" data-anchor-id="stacked-chart">Stacked Chart</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="WinRsCode_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="tile-chart" class="level2">
+<h2 class="anchored" data-anchor-id="tile-chart">Tile Chart</h2>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 374 Columns: 13
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (5): Gender, Occupation, BMICategory, BloodPressure, SleepDisorder
+dbl (8): PersonID, Age, SleepDuration, QualityofSleep, PhysicalActivityLevel...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="WinRsCode_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="line-chart" class="level2">
+<h2 class="anchored" data-anchor-id="line-chart">Line Chart</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="WinRsCode_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="densitychart" class="level2">
+<h2 class="anchored" data-anchor-id="densitychart">DensityChart</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="WinRsCode_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
 <section id="violin-chart" class="level2">
 <h2 class="anchored" data-anchor-id="violin-chart">Violin Chart</h2>
-<p>##DensityChart</p>
-<p>##Dot Plot</p>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Groups with fewer than two datapoints have been dropped.
+ℹ Set `drop = FALSE` to consider such groups for position adjustment purposes.
+Groups with fewer than two datapoints have been dropped.
+ℹ Set `drop = FALSE` to consider such groups for position adjustment purposes.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="WinRsCode_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="average-quality-of-sleep-by-gender" class="level2">
+<h2 class="anchored" data-anchor-id="average-quality-of-sleep-by-gender">Average Quality of Sleep by Gender</h2>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The `fun.y` argument of `stat_summary()` is deprecated as of ggplot2 3.3.0.
+ℹ Please use the `fun` argument instead.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="WinRsCode_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="average-time-slept-by-gender" class="level2">
+<h2 class="anchored" data-anchor-id="average-time-slept-by-gender">Average Time Slept by Gender</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="WinRsCode_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="average-quality-of-sleep-by-occupation" class="level2">
+<h2 class="anchored" data-anchor-id="average-quality-of-sleep-by-occupation">Average Quality of Sleep by Occupation</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="WinRsCode_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="averge-time-slept-by-occupation" class="level2">
+<h2 class="anchored" data-anchor-id="averge-time-slept-by-occupation">Averge Time Slept by Occupation</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="WinRsCode_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="average-time-slept-by-sleep-disorder" class="level2">
+<h2 class="anchored" data-anchor-id="average-time-slept-by-sleep-disorder">Average Time Slept by Sleep Disorder</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="WinRsCode_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="correlogram" class="level2">
+<h2 class="anchored" data-anchor-id="correlogram">Correlogram</h2>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'ellipse'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:graphics':
+
+    pairs</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tibble [374 × 7] (S3: tbl_df/tbl/data.frame)
+ $ Age                  : num [1:374] 27 28 28 28 28 28 29 29 29 29 ...
+ $ SleepDuration        : num [1:374] 6.1 6.2 6.2 5.9 5.9 5.9 6.3 7.8 7.8 7.8 ...
+ $ PhysicalActivityLevel: num [1:374] 42 60 60 30 30 30 40 75 75 75 ...
+ $ QualityofSleep       : Factor w/ 6 levels "4","5","6","7",..: 3 3 3 1 1 1 3 4 4 4 ...
+ $ StressLevel          : num [1:374] 6 8 8 8 8 8 7 6 6 6 ...
+ $ HeartRate            : num [1:374] 77 75 75 85 85 85 82 70 70 70 ...
+ $ DailySteps           : num [1:374] 4200 10000 10000 3000 3000 3000 3500 8000 8000 8000 ...</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="WinRsCode_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="densitychart-1" class="level2">
+<h2 class="anchored" data-anchor-id="densitychart-1">DensityChart</h2>
+</section>
+<section id="dot-plot" class="level2">
+<h2 class="anchored" data-anchor-id="dot-plot">Dot Plot</h2>
 <p>##ggplt circle</p>
-<p>##RidgeLine</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="WinRsCode_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
 <p>##Logistic Regression Models</p>
 <p>###Data Transformation</p>
-<p>##Build Models</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>sleep_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"./data/Sleep_health_and_lifestyle_dataset.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 374 Columns: 13
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (5): Gender, Occupation, BMICategory, BloodPressure, SleepDisorder
+dbl (8): PersonID, Age, SleepDuration, QualityofSleep, PhysicalActivityLevel...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching packages ────────────────────────────────────── tidymodels 1.2.0 ──
+✔ broom        1.0.5      ✔ rsample      1.2.1 
+✔ dials        1.2.1      ✔ tibble       3.2.1 
+✔ infer        1.0.7      ✔ tune         1.2.1 
+✔ modeldata    1.3.0      ✔ workflows    1.1.4 
+✔ parsnip      1.2.1      ✔ workflowsets 1.1.0 
+✔ purrr        1.0.2      ✔ yardstick    1.3.1 
+✔ recipes      1.0.10     
+── Conflicts ───────────────────────────────────────── tidymodels_conflicts() ──
+✖ purrr::discard()  masks scales::discard()
+✖ dplyr::filter()   masks stats::filter()
+✖ recipes::fixed()  masks stringr::fixed()
+✖ dplyr::lag()      masks stats::lag()
+✖ yardstick::spec() masks readr::spec()
+✖ recipes::step()   masks stats::step()
+• Learn how to get started at https://www.tidymodels.org/start/</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Transform data</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>sleep_data <span class="ot">&lt;-</span> sleep_data <span class="sc">|&gt;</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Gender =</span> <span class="fu">as.factor</span>(Gender), <span class="co">#Gender as factor</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">Age =</span> <span class="fu">as.factor</span>(Age),</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">Occupation =</span> <span class="fu">as.factor</span>(Occupation), <span class="co">#Occupation as factor</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">BMICategory =</span> <span class="fu">as.factor</span>(BMICategory), <span class="co">#BMI as factor</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">SleepDisorder =</span> <span class="fu">ifelse</span>(SleepDisorder <span class="sc">==</span> <span class="st">'None'</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>), <span class="co">#presence of sleep disorder as boolean</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">SleepDisorder =</span> <span class="fu">as.factor</span>(SleepDisorder) <span class="co">#boolean sleep disorder as factor</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>         ) </span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>sleep_data <span class="ot">&lt;-</span> sleep_data <span class="sc">|&gt;</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">BloodPressure =</span> <span class="fu">str_replace_all</span>(BloodPressure, <span class="st">"/.*"</span>, <span class="st">""</span>), <span class="co">#only use systolic bp to determine high/low bp</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">BloodPressure =</span> <span class="fu">as.numeric</span>(BloodPressure)) <span class="co">#convert string to numeric</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="co">#split data into training and test sets</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)  <span class="co"># for reproducibility</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>train_indices <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(sleep_data), <span class="fl">0.7</span> <span class="sc">*</span> <span class="fu">nrow</span>(sleep_data))  <span class="co"># 70% for training</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>sleep_train <span class="ot">&lt;-</span> sleep_data[train_indices, ]</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>sleep_test <span class="ot">&lt;-</span> sleep_data[<span class="sc">-</span>train_indices, ]</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sleep_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 13
+  PersonID Gender Age   Occupation  SleepDuration QualityofSleep
+     &lt;dbl&gt; &lt;fct&gt;  &lt;fct&gt; &lt;fct&gt;               &lt;dbl&gt;          &lt;dbl&gt;
+1      179 Male   42    Lawyer                7.8              8
+2       14 Male   29    Doctor                6                6
+3      195 Male   43    Salesperson           6.5              6
+4      306 Female 51    Nurse                 6.1              6
+5      118 Female 37    Accountant            7.2              8
+6      299 Female 51    Engineer              8.5              9
+# ℹ 7 more variables: PhysicalActivityLevel &lt;dbl&gt;, StressLevel &lt;dbl&gt;,
+#   BMICategory &lt;fct&gt;, BloodPressure &lt;dbl&gt;, HeartRate &lt;dbl&gt;, DailySteps &lt;dbl&gt;,
+#   SleepDisorder &lt;fct&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sleep_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 13
+  PersonID Gender Age   Occupation        SleepDuration QualityofSleep
+     &lt;dbl&gt; &lt;fct&gt;  &lt;fct&gt; &lt;fct&gt;                     &lt;dbl&gt;          &lt;dbl&gt;
+1        3 Male   28    Doctor                      6.2              6
+2        6 Male   28    Software Engineer           5.9              4
+3        8 Male   29    Doctor                      7.8              7
+4       12 Male   29    Doctor                      7.8              7
+5       15 Male   29    Doctor                      6                6
+6       17 Female 29    Nurse                       6.5              5
+# ℹ 7 more variables: PhysicalActivityLevel &lt;dbl&gt;, StressLevel &lt;dbl&gt;,
+#   BMICategory &lt;fct&gt;, BloodPressure &lt;dbl&gt;, HeartRate &lt;dbl&gt;, DailySteps &lt;dbl&gt;,
+#   SleepDisorder &lt;fct&gt;</code></pre>
+</div>
+</div>
+<p>###Model Building</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Define cross-val</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>fold <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(sleep_data, <span class="at">v =</span> <span class="dv">5</span>, <span class="at">strata =</span> SleepDisorder)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Age &amp; Sleep Disorder</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>logistic_model_age <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glm"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"classification"</span>)</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Define recipe</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>rec_age <span class="ot">&lt;-</span> <span class="fu">recipe</span>(SleepDisorder <span class="sc">~</span> Age, <span class="at">data =</span> sleep_train) <span class="sc">|&gt;</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">step_dummy</span>(<span class="fu">all_nominal</span>(), <span class="sc">-</span><span class="fu">all_outcomes</span>())</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform cross-validation</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>cv_results_age <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(rec_age) <span class="sc">%&gt;%</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(logistic_model_age) <span class="sc">%&gt;%</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit_resamples</span>(<span class="at">resamples =</span> fold)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>→ A | warning: prediction from rank-deficient fit; attr(*, "non-estim") has doubtful cases</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>There were issues with some computations   A: x1
+There were issues with some computations   A: x1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">#BMI &amp; Sleep Disorder</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>logistic_model_bmi <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glm"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"classification"</span>)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>rec_bmi <span class="ot">&lt;-</span> <span class="fu">recipe</span>(SleepDisorder <span class="sc">~</span> BMICategory, <span class="at">data =</span> sleep_train)</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>cv_results_bmi <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(rec_bmi) <span class="sc">%&gt;%</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(logistic_model_bmi) <span class="sc">%&gt;%</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit_resamples</span>(<span class="at">resamples =</span> fold)</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="co">#Blood Pressure &amp; Sleep Disorder</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>logistic_model_bp <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glm"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"classification"</span>)</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>rec_bp <span class="ot">&lt;-</span> <span class="fu">recipe</span>(SleepDisorder <span class="sc">~</span> BloodPressure, <span class="at">data =</span> sleep_train)</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>cv_results_bp <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(rec_bp) <span class="sc">%&gt;%</span></span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(logistic_model_bp) <span class="sc">%&gt;%</span></span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit_resamples</span>(<span class="at">resamples =</span> fold)</span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a><span class="co">#Quality of Sleep &amp; Sleep Disorder</span></span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>logistic_model_sq <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glm"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"classification"</span>)</span>
+<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a>rec_sq <span class="ot">&lt;-</span> <span class="fu">recipe</span>(SleepDisorder <span class="sc">~</span> QualityofSleep, <span class="at">data =</span> sleep_train)</span>
+<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a>cv_results_sq <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(rec_sq) <span class="sc">%&gt;%</span></span>
+<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(logistic_model_sq) <span class="sc">%&gt;%</span></span>
+<span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit_resamples</span>(<span class="at">resamples =</span> fold)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>##Model Predictions</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">#predict age</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>rec_age_predict <span class="ot">&lt;-</span> <span class="fu">recipe</span>(SleepDisorder <span class="sc">~</span> Age, <span class="at">data =</span> sleep_test)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>age_prediction <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">|&gt;</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(rec_age_predict) <span class="sc">|&gt;</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(logistic_model_age)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>fit_age_prediction <span class="ot">&lt;-</span> <span class="fu">fit</span>(age_prediction, <span class="at">data =</span> sleep_train)</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>predict_age <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit_age_prediction, <span class="at">new_data =</span> sleep_test)</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(predict_age)</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="co">#predict bmi</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>rec_bmi_predict <span class="ot">&lt;-</span> <span class="fu">recipe</span>(SleepDisorder <span class="sc">~</span> BMICategory, <span class="at">data =</span> sleep_test)</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>bmi_prediction <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">|&gt;</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(rec_bmi_predict) <span class="sc">|&gt;</span></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(logistic_model_bmi)</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>fit_bmi_prediction <span class="ot">&lt;-</span> <span class="fu">fit</span>(bmi_prediction, <span class="at">data =</span> sleep_train)</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>predict_bmi <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit_bmi_prediction, <span class="at">new_data =</span> sleep_test)</span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(predict_bmi)</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a><span class="co">#predict blood pressure</span></span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>rec_bp_predict <span class="ot">&lt;-</span> <span class="fu">recipe</span>(SleepDisorder <span class="sc">~</span> BloodPressure, <span class="at">data =</span> sleep_test)</span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>bp_prediction <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">|&gt;</span></span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(rec_bp_predict) <span class="sc">|&gt;</span></span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(logistic_model_bp)</span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a>fit_bp_prediction <span class="ot">&lt;-</span> <span class="fu">fit</span>(bp_prediction, <span class="at">data =</span> sleep_train)</span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a>predict_bp <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit_bp_prediction, <span class="at">new_data =</span> sleep_test)</span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(predict_bp)</span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a><span class="co">#predict sleep quality</span></span>
+<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a>rec_sq_predict <span class="ot">&lt;-</span> <span class="fu">recipe</span>(SleepDisorder <span class="sc">~</span> QualityofSleep, <span class="at">data =</span> sleep_test)</span>
+<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>sq_prediction <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">|&gt;</span></span>
+<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(rec_sq_predict) <span class="sc">|&gt;</span></span>
+<span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(logistic_model_sq)</span>
+<span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-42"><a href="#cb27-42" aria-hidden="true" tabindex="-1"></a>fit_sq_prediction <span class="ot">&lt;-</span> <span class="fu">fit</span>(sq_prediction, <span class="at">data =</span> sleep_train)</span>
+<span id="cb27-43"><a href="#cb27-43" aria-hidden="true" tabindex="-1"></a>predict_sq <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit_sq_prediction, <span class="at">new_data =</span> sleep_test)</span>
+<span id="cb27-44"><a href="#cb27-44" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(predict_sq)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="model-accuracy" class="level2">
 <h2 class="anchored" data-anchor-id="model-accuracy">Model Accuracy</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Age</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">collect_metrics</span>(cv_results_age)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 6
+  .metric     .estimator  mean     n std_err .config             
+  &lt;chr&gt;       &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;               
+1 accuracy    binary     0.848     5 0.0123  Preprocessor1_Model1
+2 brier_class binary     0.126     5 0.00814 Preprocessor1_Model1
+3 roc_auc     binary     0.882     5 0.0104  Preprocessor1_Model1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">#BMI</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">collect_metrics</span>(cv_results_bmi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 6
+  .metric     .estimator   mean     n std_err .config             
+  &lt;chr&gt;       &lt;chr&gt;       &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;               
+1 accuracy    binary     0.906      5 0.0112  Preprocessor1_Model1
+2 brier_class binary     0.0843     5 0.00924 Preprocessor1_Model1
+3 roc_auc     binary     0.908      5 0.0128  Preprocessor1_Model1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Blood pressure</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">collect_metrics</span>(cv_results_bp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 6
+  .metric     .estimator  mean     n std_err .config             
+  &lt;chr&gt;       &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;               
+1 accuracy    binary     0.834     5 0.0137  Preprocessor1_Model1
+2 brier_class binary     0.109     5 0.00855 Preprocessor1_Model1
+3 roc_auc     binary     0.910     5 0.0153  Preprocessor1_Model1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Sleep quality</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">collect_metrics</span>(cv_results_sq)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 6
+  .metric     .estimator  mean     n std_err .config             
+  &lt;chr&gt;       &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;               
+1 accuracy    binary     0.684     5  0.0291 Preprocessor1_Model1
+2 brier_class binary     0.220     5  0.0106 Preprocessor1_Model1
+3 roc_auc     binary     0.673     5  0.0501 Preprocessor1_Model1</code></pre>
+</div>
+</div>
 <p>##Multiple Logistic Regression</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the logistic regression model</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>logistic_model_multiple <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>() <span class="sc">|&gt;</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glm"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"classification"</span>)</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the recipe with both BMI and BloodPressure</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>rec_multiple <span class="ot">&lt;-</span> <span class="fu">recipe</span>(SleepDisorder <span class="sc">~</span> BMICategory <span class="sc">+</span> BloodPressure, <span class="at">data =</span> sleep_train)</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform cross-validation</span></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>cv_results_multiple <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(rec_multiple) <span class="sc">%&gt;%</span></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(logistic_model_multiple) <span class="sc">%&gt;%</span></span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit_resamples</span>(<span class="at">resamples =</span> fold)</span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a><span class="co">#prediction</span></span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>rec_multiple_predict <span class="ot">&lt;-</span> <span class="fu">recipe</span>(SleepDisorder <span class="sc">~</span> BMICategory <span class="sc">+</span> BloodPressure, <span class="at">data =</span> sleep_test)</span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>multi_prediction <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">|&gt;</span></span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(rec_multiple_predict) <span class="sc">|&gt;</span></span>
+<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(logistic_model_multiple)</span>
+<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a>fit_multi_prediction <span class="ot">&lt;-</span> <span class="fu">fit</span>(multi_prediction, <span class="at">data =</span> sleep_train)</span>
+<span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a>predict_multi <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit_multi_prediction, <span class="at">new_data =</span> sleep_test)</span>
+<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(predict_multi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 1
+  .pred_class
+  &lt;fct&gt;      
+1 FALSE      
+2 TRUE       
+3 FALSE      
+4 FALSE      
+5 FALSE      
+6 FALSE      </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View the results</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">collect_metrics</span>(cv_results_multiple)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 6
+  .metric     .estimator   mean     n std_err .config             
+  &lt;chr&gt;       &lt;chr&gt;       &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;               
+1 accuracy    binary     0.909      5 0.0115  Preprocessor1_Model1
+2 brier_class binary     0.0766     5 0.00813 Preprocessor1_Model1
+3 roc_auc     binary     0.941      5 0.0137  Preprocessor1_Model1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Age &amp; Sleep Quality</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>logistic_model_asq <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>() <span class="sc">|&gt;</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glm"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"classification"</span>)</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the recipe with both BMI and BloodPressure</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>rec_asq <span class="ot">&lt;-</span> <span class="fu">recipe</span>(SleepDisorder <span class="sc">~</span> Age <span class="sc">+</span> QualityofSleep, <span class="at">data =</span> sleep_train)</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform cross-validation</span></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>cv_results_asq <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(rec_asq) <span class="sc">%&gt;%</span></span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(logistic_model_asq) <span class="sc">%&gt;%</span></span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit_resamples</span>(<span class="at">resamples =</span> fold)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>→ A | error:   factor Age has new levels 27</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co">#prediction</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>rec_asq_predict <span class="ot">&lt;-</span> <span class="fu">recipe</span>(SleepDisorder <span class="sc">~</span> Age <span class="sc">+</span> QualityofSleep, <span class="at">data =</span> sleep_test)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>asq_prediction <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">|&gt;</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_recipe</span>(rec_asq_predict) <span class="sc">|&gt;</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_model</span>(logistic_model_asq)</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>fit_asq_prediction <span class="ot">&lt;-</span> <span class="fu">fit</span>(asq_prediction, <span class="at">data =</span> sleep_train)</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>predict_asq <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit_asq_prediction, <span class="at">new_data =</span> sleep_test)</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(predict_asq)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 1
+  .pred_class
+  &lt;fct&gt;      
+1 FALSE      
+2 TRUE       
+3 FALSE      
+4 FALSE      
+5 FALSE      
+6 TRUE       </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View the results</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">collect_metrics</span>(cv_results_asq)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 6
+  .metric     .estimator   mean     n std_err .config             
+  &lt;chr&gt;       &lt;chr&gt;       &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;               
+1 accuracy    binary     0.910      4 0.00991 Preprocessor1_Model1
+2 brier_class binary     0.0899     4 0.0103  Preprocessor1_Model1
+3 roc_auc     binary     0.910      4 0.0127  Preprocessor1_Model1</code></pre>
+</div>
+</div>
 <p>##Interactive</p>
-<p>##User input</p>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'plotly'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:ggplot2':
+
+    last_plot</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:stats':
+
+    filter</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:graphics':
+
+    layout</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 374 Columns: 13
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (5): Gender, Occupation, BMICategory, BloodPressure, SleepDisorder
+dbl (8): PersonID, Age, SleepDuration, QualityofSleep, PhysicalActivityLevel...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-4642130448a2fd8a869d" style="width:100%;height:390px;"></div>
+<script type="application/json" data-for="htmlwidget-4642130448a2fd8a869d">{"x":{"visdat":{"12364c8e8969":["function () ","plotlyVisDat"]},"cur_data":"12364c8e8969","attrs":{"12364c8e8969":{"x":{},"y":{},"mode":"markers","color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Sleep Quality by Age and Sleep Duration","xaxis":{"domain":[0,1],"automargin":true,"title":"Sleep Duration"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Age"},"hovermode":"closest","showlegend":false,"legend":{"yanchor":"top","y":0.5}},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[6.0999999999999996,6.2000000000000002,6.2000000000000002,5.9000000000000004,5.9000000000000004,5.9000000000000004,6.2999999999999998,7.7999999999999998,7.7999999999999998,7.7999999999999998,6.0999999999999996,7.7999999999999998,6.0999999999999996,6,6,6,6.5,6,6.5,7.5999999999999996,7.7000000000000002,7.7000000000000002,7.7000000000000002,7.7000000000000002,7.7999999999999998,7.9000000000000004,7.7999999999999998,7.9000000000000004,7.9000000000000004,7.9000000000000004,6.4000000000000004,6.4000000000000004,7.9000000000000004,6.0999999999999996,7.7000000000000002,6.0999999999999996,6.0999999999999996,7.5999999999999996,7.5999999999999996,7.5999999999999996,7.7000000000000002,7.7000000000000002,7.7000000000000002,7.7999999999999998,7.7000000000000002,7.7999999999999998,7.7000000000000002,7.7999999999999998,7.7000000000000002,7.7000000000000002,7.5,7.5,6,7.5999999999999996,6,6,7.7000000000000002,6,6,7.7000000000000002,6,6,6.2000000000000002,6.2000000000000002,6.2000000000000002,6.2000000000000002,7.2000000000000002,6,6.2000000000000002,6.2000000000000002,6.0999999999999996,6.0999999999999996,6.0999999999999996,6.0999999999999996,6,6,6,6,6,6,5.7999999999999998,5.7999999999999998,6.7000000000000002,6.7000000000000002,7.5,7.2000000000000002,7.2000000000000002,7.2000000000000002,7.2999999999999998,7.2999999999999998,7.2999999999999998,7.2999999999999998,7.5,7.4000000000000004,7.2000000000000002,7.0999999999999996,7.2000000000000002,7.0999999999999996,7.0999999999999996,7.0999999999999996,7.2000000000000002,7.2000000000000002,7.2000000000000002,6.5999999999999996,7.2000000000000002,6.5999999999999996,6.0999999999999996,7.7999999999999998,7.7999999999999998,7.4000000000000004,7.2000000000000002,7.4000000000000004,7.2000000000000002,7.4000000000000004,7.2000000000000002,7.2000000000000002,7.2000000000000002,7.2000000000000002,7.2000000000000002,7.2000000000000002,7.2000000000000002,7.2000000000000002,7.2000000000000002,7.2000000000000002,7.2000000000000002,7.5,7.2999999999999998,7.0999999999999996,7.2999999999999998,7.2999999999999998,7.0999999999999996,7.2999999999999998,7.2999999999999998,7.0999999999999996,7.2999999999999998,7.2999999999999998,7.0999999999999996,7.0999999999999996,7.0999999999999996,7.0999999999999996,7.0999999999999996,7.0999999999999996,7.0999999999999996,7.0999999999999996,7.0999999999999996,7.4000000000000004,7.2000000000000002,6.5,6.9000000000000004,8,8,7.2000000000000002,7.2000000000000002,7.2000000000000002,7.2000000000000002,7.2000000000000002,7.2000000000000002,7.2000000000000002,7.2000000000000002,7.2000000000000002,7.2000000000000002,7.2000000000000002,7.2000000000000002,7.9000000000000004,7.9000000000000004,7.5999999999999996,7.2999999999999998,7.0999999999999996,7.0999999999999996,7.7000000000000002,7.7000000000000002,7.7000000000000002,7.7000000000000002,7.7000000000000002,7.5999999999999996,7.5999999999999996,7.5999999999999996,6.5,7.7999999999999998,7.7999999999999998,7.7999999999999998,7.7999999999999998,7.7999999999999998,7.7999999999999998,6.7999999999999998,6.7999999999999998,6.7000000000000002,6.2999999999999998,6.7000000000000002,6.5,6.7000000000000002,6.4000000000000004,6.5,6.5,6.5,6.5,6.5,6.5,6.5,6.5,6.5,7.7999999999999998,7.7999999999999998,6.9000000000000004,7.5999999999999996,7.7000000000000002,7.7000000000000002,7.7000000000000002,7.7000000000000002,7.7999999999999998,7.7000000000000002,7.7999999999999998,7.7999999999999998,7.7999999999999998,7.7999999999999998,7.7999999999999998,7.7999999999999998,7.7999999999999998,7.7999999999999998,6.5,6.5999999999999996,6.4000000000000004,6.2999999999999998,6.4000000000000004,6.5999999999999996,6.2999999999999998,6.5999999999999996,6.2999999999999998,6.5999999999999996,6.2999999999999998,6.5999999999999996,6.2999999999999998,6.5999999999999996,6.2999999999999998,6.5999999999999996,6.2999999999999998,6.4000000000000004,6.5,6.2999999999999998,6.4000000000000004,6.5,6.2999999999999998,6.4000000000000004,6.5,6.2999999999999998,6.5,6.2999999999999998,6.7999999999999998,6.4000000000000004,6.5,6.7999999999999998,6.7999999999999998,6.5,6.5,6.5,6.5,6.5999999999999996,6.5999999999999996,6.5999999999999996,6.5999999999999996,6.5999999999999996,6.5999999999999996,6.5999999999999996,6.9000000000000004,7.2999999999999998,5.9000000000000004,7.2999999999999998,6.2000000000000002,6,6.0999999999999996,6.0999999999999996,6.0999999999999996,6.0999999999999996,6.2000000000000002,6.2000000000000002,6.2000000000000002,8.0999999999999996,8.0999999999999996,6.0999999999999996,8.3000000000000007,6,6.0999999999999996,6,6,6,6,6,6,6,6.0999999999999996,6,6.0999999999999996,6.0999999999999996,6,6.0999999999999996,6,6.0999999999999996,6.0999999999999996,8.5,8.5,8.5,8.5,7.0999999999999996,6,6.0999999999999996,6.0999999999999996,6.5,6.5,6.5999999999999996,6.5999999999999996,6.5999999999999996,6.5999999999999996,8.4000000000000004,8.4000000000000004,8.4000000000000004,8.3000000000000007,8.5,8.5,8.4000000000000004,8.4000000000000004,8.5,8.4000000000000004,8.4000000000000004,8.5,8.3000000000000007,8.5,8.3000000000000007,8.5,8.3000000000000007,8.5,8.5,8.4000000000000004,8.4000000000000004,8.4000000000000004,8.4000000000000004,8.4000000000000004,8.4000000000000004,8.4000000000000004,8.5,8.0999999999999996,8.0999999999999996,8.1999999999999993,8.1999999999999993,8.0999999999999996,8.1999999999999993,8.1999999999999993,8.1999999999999993,8.1999999999999993,8.1999999999999993,8.0999999999999996,8.0999999999999996,8.0999999999999996,8,8,8,8,8,8,8,8.0999999999999996,8.1999999999999993,8.1999999999999993,8.1999999999999993,8.1999999999999993,8,8,8.0999999999999996,8,8.0999999999999996,8.0999999999999996,8,8.0999999999999996,8.0999999999999996,8.0999999999999996],"y":[27,28,28,28,28,28,29,29,29,29,29,29,29,29,29,29,29,29,29,30,30,30,30,30,30,30,30,30,30,30,30,30,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,31,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,33,33,33,33,33,33,33,33,33,33,33,33,33,34,34,35,35,35,35,35,35,35,35,35,35,35,35,36,36,36,36,36,36,36,36,36,36,36,36,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,37,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,38,39,39,39,39,39,39,39,39,39,39,39,39,39,39,39,40,40,40,40,41,41,41,41,41,41,41,41,41,41,41,41,42,42,42,42,42,42,42,42,42,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,43,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,45,45,45,45,45,45,45,45,45,45,45,45,45,45,48,48,48,49,49,49,49,49,49,49,49,49,49,49,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,51,51,51,51,51,51,51,51,52,52,52,52,52,52,52,52,52,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53,54,54,54,54,54,54,54,55,55,56,56,57,57,57,57,57,57,57,57,57,58,58,58,58,58,58,59,59,59,59,59,59,59,59,59,59,59,59,59,59,59,59],"mode":"markers","type":"scatter","marker":{"colorbar":{"title":"QualityofSleep","ticklen":2},"cmin":4,"cmax":9,"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666666","rgba(70,19,97,1)"],["0.0833333333333334","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666667","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333334","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333334","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":false,"color":[6,6,6,4,4,4,6,7,7,7,6,7,6,6,6,6,5,6,5,7,7,7,7,7,7,7,7,7,7,7,5,5,8,6,7,6,6,7,7,7,7,7,7,7,7,7,7,7,7,7,8,8,6,7,6,6,7,6,6,7,6,6,6,6,6,6,8,6,6,6,6,6,6,6,6,6,6,6,6,6,4,4,7,7,8,8,8,8,8,8,8,8,8,7,8,8,8,8,8,8,8,8,8,5,8,5,6,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,7,8,5,7,9,9,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,7,7,8,8,8,8,8,8,8,8,6,8,8,8,8,8,8,6,6,7,6,7,6,7,6,6,6,6,6,6,6,6,6,6,8,8,6,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,6,7,6,6,6,7,6,7,6,7,6,7,6,7,6,7,6,6,7,6,6,7,6,6,7,6,7,6,7,6,6,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,6,7,6,6,6,6,6,6,6,6,6,9,9,6,9,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,9,9,9,9,7,6,6,6,7,7,7,7,7,7,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9],"line":{"colorbar":{"title":"","ticklen":2},"cmin":4,"cmax":9,"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666666","rgba(70,19,97,1)"],["0.0833333333333334","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666667","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333334","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333334","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":false,"color":[6,6,6,4,4,4,6,7,7,7,6,7,6,6,6,6,5,6,5,7,7,7,7,7,7,7,7,7,7,7,5,5,8,6,7,6,6,7,7,7,7,7,7,7,7,7,7,7,7,7,8,8,6,7,6,6,7,6,6,7,6,6,6,6,6,6,8,6,6,6,6,6,6,6,6,6,6,6,6,6,4,4,7,7,8,8,8,8,8,8,8,8,8,7,8,8,8,8,8,8,8,8,8,5,8,5,6,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,7,8,5,7,9,9,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,7,7,8,8,8,8,8,8,8,8,6,8,8,8,8,8,8,6,6,7,6,7,6,7,6,6,6,6,6,6,6,6,6,6,8,8,6,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,6,7,6,6,6,7,6,7,6,7,6,7,6,7,6,7,6,6,7,6,6,7,6,6,7,6,7,6,7,6,6,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,6,7,6,6,6,6,6,6,6,6,6,9,9,6,9,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,9,9,9,9,7,6,6,6,7,7,7,7,7,7,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9]}},"xaxis":"x","yaxis":"y","frame":null},{"x":[5.7999999999999998,8.5],"y":[27,59],"type":"scatter","mode":"markers","opacity":0,"hoverinfo":"none","showlegend":false,"marker":{"colorbar":{"title":"QualityofSleep","ticklen":2,"len":0.5,"lenmode":"fraction","y":1,"yanchor":"top"},"cmin":4,"cmax":9,"colorscale":[["0","rgba(68,1,84,1)"],["0.0416666666666666","rgba(70,19,97,1)"],["0.0833333333333334","rgba(72,32,111,1)"],["0.125","rgba(71,45,122,1)"],["0.166666666666667","rgba(68,58,128,1)"],["0.208333333333333","rgba(64,70,135,1)"],["0.25","rgba(60,82,138,1)"],["0.291666666666667","rgba(56,93,140,1)"],["0.333333333333333","rgba(49,104,142,1)"],["0.375","rgba(46,114,142,1)"],["0.416666666666667","rgba(42,123,142,1)"],["0.458333333333333","rgba(38,133,141,1)"],["0.5","rgba(37,144,140,1)"],["0.541666666666667","rgba(33,154,138,1)"],["0.583333333333333","rgba(39,164,133,1)"],["0.625","rgba(47,174,127,1)"],["0.666666666666667","rgba(53,183,121,1)"],["0.708333333333333","rgba(79,191,110,1)"],["0.75","rgba(98,199,98,1)"],["0.791666666666667","rgba(119,207,85,1)"],["0.833333333333334","rgba(147,214,70,1)"],["0.875","rgba(172,220,52,1)"],["0.916666666666667","rgba(199,225,42,1)"],["0.958333333333334","rgba(226,228,40,1)"],["1","rgba(253,231,37,1)"]],"showscale":true,"color":[4,9],"line":{"color":"rgba(255,127,14,1)"}},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="occupation-that-pops-up-the-most-on-our-dataset." class="level2">
+<h2 class="anchored" data-anchor-id="occupation-that-pops-up-the-most-on-our-dataset.">Occupation that pops up the most on our dataset.</h2>
+</section>
+<section id="linear-regression-on-sleep-duration-and-quality-of-sleep" class="level2">
+<h2 class="anchored" data-anchor-id="linear-regression-on-sleep-duration-and-quality-of-sleep">Linear Regression on Sleep Duration and Quality of Sleep</h2>
 </section>
 
 </main>
