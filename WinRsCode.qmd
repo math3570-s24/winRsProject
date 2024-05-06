@@ -1,3 +1,7 @@
+
+​
+Carter, Katy
+​
 ---
 title: "final project name goes here"
 subtitle: "MATH/COSC 3570 Spring 2024"
@@ -19,7 +23,6 @@ execute:
 library(reticulate)
 library(tidyverse)
 library(tidymodels)
-library(ggprism)
 ```
 
 ## THIS IS THE TITLE
@@ -49,8 +52,7 @@ library(ggplot2)
  
 # Heatmap 
 heatMap <- ggplot(sleep_data, aes(x = SleepDuration, y = PhysicalActivityLevel, fill= QualityofSleep)) +
-  geom_tile() + 
-  theme_prism()
+  geom_tile()
 
 print(heatMap)
 ```
@@ -58,7 +60,8 @@ print(heatMap)
 ## Violin Chart
 
 ```{r}
-#| eval: false
+#| eval: true
+#| echo: false
 # reorder is close to order, but is made to change the order of the factor levels.
 
 sleep_data <- sleep_data |>
@@ -66,14 +69,178 @@ sleep_data <- sleep_data |>
 
   ggplot(sleep_data, aes(x=BMICategory, y=Age, fill=QualityofSleep)) + 
     geom_violin() +
-    xlab("BMI Category") + 
-    theme_prism()
+    xlab("BMI Category")
 ```
-
-##DensityChart
+## Average Quality of Sleep by Gender
 
 ```{r}
-#|eval: false
+#| eval: true
+#| echo: false
+
+
+ggplot(aes(x = Gender, y = QualityofSleep), data = sleep_data) + stat_summary(fun.y = "mean", geom = "bar")
+
+```
+
+## Average Time Slept by Gender
+
+```{r}
+#| eval: true
+#| echo: false
+
+
+ggplot(aes(x = Gender, y = SleepDuration), data = sleep_data) + stat_summary(fun.y = "mean", geom = "bar")
+
+```
+
+## Average Quality of Sleep by Occupation
+
+```{r}
+#| eval: true
+#| echo: false
+
+
+#figure out a way to spread bottom labels
+
+ggplot(aes(x = Occupation, y = QualityofSleep), data = sleep_data) + stat_summary(fun.y = "mean", geom = "bar")
+
+```
+
+
+## Averge Time Slept by Occupation
+```{r}
+#| eval: true
+#| echo: false
+
+
+ggplot(aes(x = Occupation, y = SleepDuration), data = sleep_data) + stat_summary(fun.y = "mean", geom = "bar")
+
+```
+
+## Quality of Sleep by Age
+
+```{r}
+#| eval: true
+#| echo: false
+
+
+ggplot(aes(x = Age, y = QualityofSleep), data = sleep_data) + stat_summary(fun.y = "mean", geom = "Density")
+
+```
+
+## Average Time Slept by Age
+
+```{r}
+#| eval: true
+#| echo: false
+
+
+ggplot(aes(x = Age, y = SleepDuration), data = sleep_data) + stat_summary(fun.y = "mean", geom = "Density")
+
+```
+
+## Average Quality of Sleep by Sleep Disorder
+
+```{r}
+#| eval: true
+#| echo: false
+
+
+ggplot(aes(x = SleepDisorder, y = QualityofSleep), data = sleep_data) + stat_summary(fun.y = "mean", geom = "bar")
+
+```
+
+## Average Time Slept by Sleep Disorder
+
+```{r}
+#| eval: true
+#| echo: false
+
+
+ggplot(aes(x = SleepDisorder, y = SleepDuration), data = sleep_data) + stat_summary(fun.y = "mean", geom = "bar")
+
+```
+
+## Average Quality of Sleep by Physical Activity Level
+### FIX
+
+```{r}
+#| eval: true
+#| echo: false
+
+
+ggplot(aes(x = PhysicalActivityLevel, y = QualityofSleep), data = sleep_data) + stat_summary(fun.y = "mean", geom = "bar")
+
+```
+
+## Average Time Slept by Physical Activity Level
+
+```{r}
+#| eval: true
+#| echo: false
+
+
+ggplot(aes(x = PhysicalActivityLevel, y = SleepDuration), data = sleep_data) + stat_summary(fun.y = "mean", geom = "bar")
+
+```
+
+## Correlogram
+```{r}
+#| eval: true
+#| echo: false
+
+# Load necessary libraries
+library(ellipse)
+library(RColorBrewer)
+
+# Subset the dataset to include only relevant columns
+sleep_data_subset <- sleep_data[, c("Age","SleepDuration","PhysicalActivityLevel","QualityofSleep","StressLevel","HeartRate","DailySteps")]
+
+str(sleep_data_subset)
+
+# Convert non-numeric columns to numeric (if needed)
+sleep_data_subset$QualityofSleep <- as.numeric(sleep_data_subset$QualityofSleep)
+
+# Compute the correlation matrix
+correlation_matrix <- cor(sleep_data_subset)
+
+# Choose a color palette from RColorBrewer
+my_colors <- brewer.pal(5, "Spectral")
+my_colors <- colorRampPalette(my_colors)(100)
+
+# Order the correlation matrix
+ord <- order(correlation_matrix["QualityofSleep", ])
+correlation_matrix_ord <- correlation_matrix[ord, ord]
+
+options(repr.plot.width = 15, repr.plot.height = 6)
+
+# Plot the correlation matrix
+plotcorr(correlation_matrix_ord, col = my_colors[correlation_matrix_ord * 50 + 50], mar = c(1, 1, 1, 1))
+
+```
+## Beeswarm Graph
+
+```{r}
+#|eval: true
+#|echo: false
+
+# Load necessary libraries
+library(ggplot2)
+library(ggbeeswarm)
+
+
+ggplot(sleep_data, aes(x = PhysicalActivityLevel, y = QualityofSleep)) +
+  geom_beeswarm()
+
+```
+
+
+## DensityChart
+
+```{r}
+#|eval: true
+#|echo: false
+
 # Libraries
 library(ggplot2)
 library(hrbrthemes)
@@ -88,18 +255,17 @@ p2 <- ggplot(data = sleep_data, aes(x = DailySteps, fill = BMICategory)) +
   scale_fill_viridis(discrete = TRUE) +
   scale_color_viridis(discrete = TRUE) +
   theme_ipsum()
-p2
 ```
 
-##Dot Plot
+## Dot Plot
 
 ```{r}
-#|eval: false
+#|eval: true
+#|echo: false
 
 graph1 <- sleep_data |>
   ggplot(aes(SleepDuration, Age, colour = QualityofSleep, size = PhysicalActivityLevel)) + 
-  geom_point(show.legend = TRUE) + 
-  theme_void() 
+  geom_point(show.legend = TRUE)
  #+ scale_color_brewer()
 
 graph1
@@ -374,6 +540,12 @@ collect_metrics(cv_results_asq)
 ```{r}
 #|eval: true
 
+
+data <- readr::read_csv("data/Sleep_health_and_lifestyle_dataset.csv")
+sleep_data <- data|>
+  na.omit()
+sleep_data
+
 # Convert SleepDisorder to factor
 sleep_data$SleepDisorder <- factor(sleep_data$SleepDisorder)
 levels(sleep_data$SleepDisorder)
@@ -384,15 +556,15 @@ log_reg_spec <- logistic_reg() |>
   set_mode("classification")
 
 log_reg_fit <- log_reg_spec |>
-  fit(SleepDisorder ~ ., data = sleep_train)
+  fit(SleepDisorder ~ ., data = train_data)
 ```
 
 ##Model Evaluation
 ```{r}
-# Optionally, you can evaluate the performance of the trained model using appropriate metrics
-log_reg_fit %>%
-  predict(sleep_test) |>
-  bind_cols(sleep_test) |>
+
+log_reg_fit |>
+  predict(test_data) |>
+  bind_cols(test_data) |>
   metrics(truth = SleepDisorder, estimate = .pred_class)
 
 ```
@@ -401,6 +573,7 @@ log_reg_fit %>%
 ##Interactive
 
 ```{r}
+#| eval: true
 # Load necessary libraries
 library(plotly)
 
